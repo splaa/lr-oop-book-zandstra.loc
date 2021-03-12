@@ -9,22 +9,27 @@ use PDO;
 
 class ShopProduct
 {
+    public const AVAILABLE = 0;
+    public const OUT_OF_STOCK = 1;
+
+
     private int $id = 0;
     public int $discount = 0;
 
     /**
      * ShopProduct constructor.
-     * @param  string  $title
-     * @param  string  $producerMainName
-     * @param  string  $producerFirstName
-     * @param  float  $price
+     * @param string $title
+     * @param string $producerMainName
+     * @param string $producerFirstName
+     * @param float $price
      */
     public function __construct(
         private string $title = "Стандартный товар",
         private string $producerMainName = "Фамилия автора",
         private string $producerFirstName = "Имя автора",
         protected float $price = 0
-    ) {
+    )
+    {
     }
 
     public function setId(int $id)
@@ -49,7 +54,7 @@ class ShopProduct
                 (float)$row['price'],
                 (int)$row['numpages'],
             );
-        }elseif ($row['type'] == "cd") {
+        } elseif ($row['type'] == "cd") {
             $product = new CdProduct(
                 $row['title'],
                 $row['firstname'],
@@ -57,8 +62,8 @@ class ShopProduct
                 (float)$row['price'],
                 (string)"01:02:03"
             );
-        }else {
-            $firstname = (is_null($row['firstname'])) ? "": $row['firstname'];
+        } else {
+            $firstname = (is_null($row['firstname'])) ? "" : $row['firstname'];
             $product = new ShopProduct(
                 $row['title'],
                 $firstname,
@@ -66,20 +71,20 @@ class ShopProduct
                 (float)$row['price'],
             );
         }
-        $product->setId((int) $row['id']);
-        $product->setDiscount((int) $row['discount']);
+        $product->setId((int)$row['id']);
+        $product->setDiscount((int)$row['discount']);
         return $product;
     }
 
     public function getProducer(): string
     {
-        return $this->producerFirstName." "
-            .$this->producerMainName;
+        return $this->producerFirstName . " "
+            . $this->producerMainName;
     }
 
     public function getPrice(): float
     {
-        return $this->price - $this->discount ;
+        return $this->price - $this->discount;
     }
 
     #[Pure] public function getSummaryLine(): string
@@ -90,7 +95,7 @@ class ShopProduct
     }
 
     /**
-     * @param  int  $discount
+     * @param int $discount
      */
     public function setDiscount(int $discount): void
     {
@@ -98,7 +103,7 @@ class ShopProduct
     }
 
     /**
-     * @param  string  $title
+     * @param string $title
      */
     public function setTitle(string $title): void
     {
@@ -114,7 +119,7 @@ class ShopProduct
     }
 
     /**
-     * @param  string  $producerMainName
+     * @param string $producerMainName
      */
     public function setProducerMainName(string $producerMainName): void
     {
@@ -130,7 +135,7 @@ class ShopProduct
     }
 
     /**
-     * @param  string  $producerFirstName
+     * @param string $producerFirstName
      */
     public function setProducerFirstName(string $producerFirstName): void
     {

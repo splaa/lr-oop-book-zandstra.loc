@@ -49,7 +49,8 @@ class ShopController extends Controller
         $pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
         $obj1 = ShopProduct::getInstance(1, $pdo);
         $obj2 = ShopProduct::getInstance(2, $pdo);
-dd($obj1, $obj2);
+        $writer->addProduct($obj1);
+        $writer->addProduct($obj2);
         return $writer->write();
     }
 

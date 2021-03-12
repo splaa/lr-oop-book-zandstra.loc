@@ -41,6 +41,16 @@ class ShopController extends Controller
         $writer->addProduct($bookProduct);
         $writer->addProduct($cdProduct);
 
+
+
+        $path = "/home/splx/PhpstormProjects/lr-oop-book-zandstra.loc/database/database.sqlite";
+        $dsn  = "sqlite:". $path;
+        $pdo = new \PDO($dsn, null, null);
+        $pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+        $obj1 = ShopProduct::getInstance(1, $pdo);
+        $obj2 = ShopProduct::getInstance(2, $pdo);
+dd($obj1, $obj2);
         return $writer->write();
     }
+
 }

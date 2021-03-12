@@ -5,9 +5,11 @@ namespace App\Book\Entity;
 
 
 use JetBrains\PhpStorm\Pure;
+use PDO;
 
 class ShopProduct
 {
+    private int $id = 0;
     public int $discount = 0;
 
     /**
@@ -23,6 +25,50 @@ class ShopProduct
         private string $producerFirstName = "Имя автора",
         protected float $price = 0
     ) {
+    }
+
+    public function setId(int $id)
+    {
+        $this->id = $id;
+    }
+
+    public static function getInstance(int $id, PDO $pdo): ?ShopProduct
+    {
+        $stmt = $pdo->prepare("select * from products where id=?");
+        $result = $stmt->execute([$id]);
+        $row = $stmt->fetch();
+
+        if (empty($row)) {
+            return null;
+        }
+        if ($row['type'] == "book") {
+            $product = new BookProduct(
+                $row['title'],
+                $row['firstname'],
+                $row['mainname'],
+                (float)$row['price'],
+                (int)$row['numpages'],
+            );
+        }elseif ($row['type'] == "cd") {
+            $product = new CdProduct(
+                $row['title'],
+                $row['firstname'],
+                $row['mainname'],
+                (float)$row['price'],
+                (string)"01:02:03"
+            );
+        }else {
+            $firstname = (is_null($row['firstname'])) ? "": $row['firstname'];
+            $product = new ShopProduct(
+                $row['title'],
+                $firstname,
+                $row['mainname'],
+                (float)$row['price'],
+            );
+        }
+        $product->setId((int) $row['id']);
+        $product->setDiscount((int) $row['discount']);
+        return $product;
     }
 
     public function getProducer(): string

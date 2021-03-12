@@ -7,6 +7,7 @@ use App\Book\Entity\CdProduct;
 use App\Book\Entity\ShopProduct;
 use App\Book\Services\AddressManager;
 use App\Book\Services\ShopProductWriter;
+use App\Book\Services\TextProductWriter;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use SimpleXMLElement;
@@ -37,11 +38,11 @@ class ShopController extends Controller
             price: 10.99,
             playLength: "00:60:33"
         );
-        $writer = new ShopProductWriter();
+        $writer = new TextProductWriter();
         $writer->addProduct($bookProduct);
         $writer->addProduct($cdProduct);
 
-
+//todo: Интерфейсы стр.95
 
         $path = "/home/splx/PhpstormProjects/lr-oop-book-zandstra.loc/database/database.sqlite";
         $dsn  = "sqlite:". $path;

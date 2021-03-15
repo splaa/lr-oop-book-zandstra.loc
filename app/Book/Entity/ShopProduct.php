@@ -4,11 +4,17 @@
 namespace App\Book\Entity;
 
 
+use App\Book\Contracts\Chargeable;
+use App\Book\Contracts\IdentityObject;
+use App\Book\Services\Utility\IdentityTrait;
+use App\Book\Services\Utility\PriceUtilities;
 use JetBrains\PhpStorm\Pure;
 use PDO;
 
-class ShopProduct
+class ShopProduct implements Chargeable, IdentityObject
 {
+    use PriceUtilities, IdentityTrait;
+
     public const AVAILABLE = 0;
     public const OUT_OF_STOCK = 1;
 
@@ -16,13 +22,6 @@ class ShopProduct
     private int $id = 0;
     public int $discount = 0;
 
-    /**
-     * ShopProduct constructor.
-     * @param string $title
-     * @param string $producerMainName
-     * @param string $producerFirstName
-     * @param float $price
-     */
     public function __construct(
         private string $title = "Стандартный товар",
         private string $producerMainName = "Фамилия автора",
@@ -32,9 +31,15 @@ class ShopProduct
     {
     }
 
+
     public function setId(int $id)
     {
         $this->id = $id;
+    }
+
+    public function getId(): int
+    {
+        return $this->id;
     }
 
     public static function getInstance(int $id, PDO $pdo): ?ShopProduct

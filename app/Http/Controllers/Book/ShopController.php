@@ -2,15 +2,17 @@
 
 namespace App\Http\Controllers\Book;
 
+use App\Book\Contracts\IdentityObject;
 use App\Book\Entity\BookProduct;
 use App\Book\Entity\CdProduct;
+use App\Book\Entity\Document;
 use App\Book\Entity\ShopProduct;
+use App\Book\Entity\SpreadSheet;
+use App\Book\Entity\User;
 use App\Book\Services\AddressManager;
-use App\Book\Services\ShopProductWriter;
 use App\Book\Services\TextProductWriter;
+use App\Book\Services\Utility\UtilityService;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use SimpleXMLElement;
 
 class ShopController extends Controller
 {
@@ -42,7 +44,7 @@ class ShopController extends Controller
         $writer->addProduct($bookProduct);
         $writer->addProduct($cdProduct);
 
-//todo: Интерфейсы стр.95
+
 
         $path = "/home/splx/PhpstormProjects/lr-oop-book-zandstra.loc/database/database.sqlite";
         $dsn  = "sqlite:". $path;
@@ -53,6 +55,17 @@ class ShopController extends Controller
         $writer->addProduct($obj1);
         $writer->addProduct($obj2);
         return $writer->write();
+    }
+
+    public function indexTrait()
+    {
+dd(Document::create(), User::create(), SpreadSheet::create());
+
+    }
+
+    public static function storeIdentityObject(IdentityObject $identityObject)
+    {
+
     }
 
 }

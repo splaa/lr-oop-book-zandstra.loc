@@ -18,3 +18,4 @@ Route::get('/', function () {
     return view('welcome');
 });
 Route::get('shop', [ShopController::class, 'index'] );
+Route::get('shop/trait', [ShopController::class, 'indexTrait'] );

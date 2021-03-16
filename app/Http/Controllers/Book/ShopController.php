@@ -5,14 +5,13 @@ namespace App\Http\Controllers\Book;
 use App\Book\Contracts\IdentityObject;
 use App\Book\Entity\BookProduct;
 use App\Book\Entity\CdProduct;
-use App\Book\Entity\Document;
+use App\Book\Entity\Conf;
+use App\Book\Entity\Person;
 use App\Book\Entity\ShopProduct;
-use App\Book\Entity\SpreadSheet;
-use App\Book\Entity\User;
 use App\Book\Services\AddressManager;
 use App\Book\Services\TextProductWriter;
-use App\Book\Services\Utility\UtilityService;
 use App\Http\Controllers\Controller;
+use JetBrains\PhpStorm\Pure;
 
 class ShopController extends Controller
 {
@@ -57,15 +56,31 @@ class ShopController extends Controller
         return $writer->write();
     }
 
-    public function indexTrait()
+    #[Pure] public function indexTrait()
     {
-dd(Document::create(), User::create(), SpreadSheet::create());
+            $conf = new Conf("/home/splx/PhpstormProjects/lr-oop-book-zandstra.loc/app/Book/Entity/conf01.xml");
+
+        try {
+            $user = "user: " . $conf->get('user') . "<br />";
+            $host = "host: " . $conf->get('host') . "<br />";
+
+            $conf->set("pass", "newpass");
+            $conf->write();
+        } catch (\Exception $exception) {
+            die($exception);
+        }
 
     }
 
     public static function storeIdentityObject(IdentityObject $identityObject)
     {
 
+    }
+
+    public function magik()
+    {
+        $p = new Person();
+        return $p->name;
     }
 
 }

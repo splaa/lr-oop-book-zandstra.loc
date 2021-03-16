@@ -19,3 +19,6 @@ Route::get('/', function () {
 });
 Route::get('shop', [ShopController::class, 'index'] );
 Route::get('shop/trait', [ShopController::class, 'indexTrait'] );
+
+
+Route::get('magik', [ShopController::class, 'magik']);
